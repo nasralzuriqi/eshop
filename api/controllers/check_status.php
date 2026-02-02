@@ -1,0 +1,15 @@
+<?php
+header('Content-Type: application/json');
+
+if (isset($_SESSION['user_id']) && isset($_SESSION['username'])) {
+    echo json_encode([
+        'status' => 'success',
+        'is_logged_in' => true,
+        'username' => $_SESSION['username']
+    ]);
+} else {
+    echo json_encode([
+        'status' => 'success',
+        'is_logged_in' => false
+    ]);
+}

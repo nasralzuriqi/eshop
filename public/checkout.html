@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Perfume Shop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body class="bg-gray-50">
+    <header id="header-container" class="bg-white shadow-md"></header>
+    <main class="container mx-auto px-4 py-12">
+        <h1 class="text-3xl font-bold mb-6">Checkout</h1>
+        <form id="checkout-form" class="w-full max-w-lg mx-auto bg-white p-8 rounded-lg shadow-md">
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium">Full Name</label>
+                    <input type="text" id="shipping_name" required class="w-full px-3 py-2 mt-1 border rounded-md">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium">Shipping Address</label>
+                    <textarea id="shipping_address" required class="w-full px-3 py-2 mt-1 border rounded-md"></textarea>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium">Phone Number</label>
+                    <input type="text" id="shipping_phone" required class="w-full px-3 py-2 mt-1 border rounded-md">
+                </div>
+                <button type="submit" class="w-full px-4 py-3 font-semibold text-white bg-indigo-600 rounded-md">Place Order</button>
+            </div>
+        </form>
+    </main>
+    <footer id="footer-container" class="bg-gray-800 text-white mt-12"></footer>
+    <script src="assets/js/main.js"></script>
+    <script>
+        document.getElementById('checkout-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const shipping_name = document.getElementById('shipping_name').value;
+            const shipping_address = document.getElementById('shipping_address').value;
+            const shipping_phone = document.getElementById('shipping_phone').value;
+
+            const response = await fetch('../api/routes.php?resource=orders&action=create', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ shipping_name, shipping_address, shipping_phone })
+            });
+            const result = await response.json();
+
+            if (result.status === 'success') {
+                Swal.fire('Thank You!', 'Your order has been placed.', 'success').then(() => {
+                    window.location.href = 'index.html';
+                });
+            } else {
+                Swal.fire('Error', result.message, 'error');
+            }
+        });
+    </script>
+</body>
+</html>

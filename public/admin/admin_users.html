@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Admin Users - Admin Panel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body class="bg-gray-100">
+    <div id="app-container" class="flex">
+        <div id="sidebar-container"></div>
+        <div class="flex-1 flex flex-col">
+            <div id="header-container"></div>
+            <main class="p-6">
+                <div class="flex justify-between items-center">
+                    <h1 class="text-3xl font-bold text-gray-800">Admin Users</h1>
+                    <button id="add-user-btn" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">Add New User</button>
+                </div>
+                <div class="mt-6 bg-white p-6 rounded-lg shadow-md">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Username</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-table-body" class="bg-white divide-y divide-gray-200"></tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="user-modal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
+        <div class="relative top-20 mx-auto p-5 border w-full max-w-lg shadow-lg rounded-md bg-white">
+            <form id="user-form">
+                <input type="hidden" id="user-id" name="id">
+                <h3 id="user-modal-title" class="text-lg font-medium">Add User</h3>
+                <div class="mt-4 space-y-4">
+                    <input type="text" id="username" name="username" placeholder="Username" class="w-full px-3 py-2 border rounded-md" required>
+                    <input type="email" id="email" name="email" placeholder="Email" class="w-full px-3 py-2 border rounded-md" required>
+                    <input type="text" id="full_name" name="full_name" placeholder="Full Name" class="w-full px-3 py-2 border rounded-md">
+                    <input type="password" id="password" name="password" placeholder="Password (leave blank to keep unchanged)" class="w-full px-3 py-2 border rounded-md">
+                    <select id="role" name="role" class="w-full px-3 py-2 border rounded-md">
+                        <option value="editor">Editor</option>
+                        <option value="manager">Manager</option>
+                        <option value="support">Support</option>
+                        <option value="super_admin">Super Admin</option>
+                    </select>
+                </div>
+                <div class="mt-4 flex justify-end">
+                    <button type="button" id="cancel-user-btn" class="px-4 py-2 bg-gray-200 rounded-md mr-2">Cancel</button>
+                    <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-md">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="./assets/js/main.js"></script>
+    <script src="./assets/js/admin_users.js"></script>
+</body>
+</html>

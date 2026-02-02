@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Hero Sliders - Admin Panel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body class="bg-gray-100">
+    <div id="app-container" class="flex">
+        <div id="sidebar-container"></div>
+        <div class="flex-1 flex flex-col">
+            <div id="header-container"></div>
+            <main class="p-6">
+                <div class="flex justify-between items-center">
+                    <h1 class="text-3xl font-bold text-gray-800">Hero Sliders</h1>
+                    <button id="add-slider-btn" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">Add New Slider</button>
+                </div>
+                <div id="sliders-container" class="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Sliders will be loaded here -->
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="slider-modal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
+        <div class="relative top-10 mx-auto p-5 border w-full max-w-2xl shadow-lg rounded-md bg-white">
+            <form id="slider-form" enctype="multipart/form-data">
+                <input type="hidden" id="slider-id" name="id">
+                <h3 id="slider-modal-title" class="text-lg font-medium">Add Slider</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                    <input type="text" id="title" name="title" placeholder="Title" class="w-full px-3 py-2 border rounded-md" required>
+                    <input type="text" id="subtitle" name="subtitle" placeholder="Subtitle" class="w-full px-3 py-2 border rounded-md">
+                    <input type="text" id="btn_text" name="btn_text" placeholder="Button Text" class="w-full px-3 py-2 border rounded-md">
+                    <input type="text" id="btn_link" name="btn_link" placeholder="Button Link" class="w-full px-3 py-2 border rounded-md">
+                    <input type="number" id="sort_order" name="sort_order" placeholder="Sort Order" class="w-full px-3 py-2 border rounded-md" value="0">
+                    <div class="flex items-center">
+                        <input type="checkbox" id="is_active" name="is_active" class="h-4 w-4">
+                        <label for="is_active" class="ml-2">Is Active</label>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <label class="block text-sm">Image</label>
+                    <input type="file" id="image" name="image" class="w-full px-3 py-2 mt-1 border rounded-md">
+                    <img id="current-image" class="mt-2 h-24 w-auto" src="" alt="Current Image">
+                </div>
+                <div class="mt-4 flex justify-end">
+                    <button type="button" id="cancel-slider-btn" class="px-4 py-2 bg-gray-200 rounded-md mr-2">Cancel</button>
+                    <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-md">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="./assets/js/main.js"></script>
+    <script src="./assets/js/hero_sliders.js"></script>
+</body>
+</html>

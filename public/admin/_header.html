@@ -1,0 +1,19 @@
+<!-- Header -->
+<header class="bg-white shadow-md p-4 flex justify-between items-center">
+    <div>
+        <!-- Can add breadcrumbs or page title here -->
+    </div>
+    <div class="flex items-center">
+        <span id="admin-user-name" class="text-gray-700 mr-4"></span>
+        <button onclick="logout()" class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700">Logout</button>
+    </div>
+</header>
+<script>
+    // Set the admin's name in the header
+    document.addEventListener('DOMContentLoaded', () => {
+        const adminUser = JSON.parse(sessionStorage.getItem('admin_user'));
+        if (adminUser && adminUser.username) {
+            document.getElementById('admin-user-name').textContent = `Welcome, ${adminUser.username}`;
+        }
+    });
+</script>

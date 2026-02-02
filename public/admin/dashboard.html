@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Admin Panel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+    <div id="app-container" class="flex">
+        <!-- Sidebar will be loaded here -->
+        <div id="sidebar-container"></div>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col">
+            <!-- Header will be loaded here -->
+            <div id="header-container"></div>
+
+            <main class="p-6">
+                <h1 class="text-3xl font-bold text-gray-800">Dashboard</h1>
+                <p class="mt-2 text-gray-600">Welcome back, Admin!</p>
+                
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-lg font-medium text-gray-600">Total Revenue</h3>
+                        <p class="text-3xl font-bold text-gray-900 mt-2">$0</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-lg font-medium text-gray-600">Total Orders</h3>
+                        <p class="text-3xl font-bold text-gray-900 mt-2">0</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-lg font-medium text-gray-600">Total Customers</h3>
+                        <p class="text-3xl font-bold text-gray-900 mt-2">0</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-lg font-medium text-gray-600">Products in Stock</h3>
+                        <p class="text-3xl font-bold text-gray-900 mt-2">0</p>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="./assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfume Shop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="bg-gray-50">
+
+    <!-- Header -->
+    <header id="header-container" class="bg-white shadow-md"></header>
+
+    <!-- Hero Slider -->
+    <section class="relative h-96 bg-gray-200" aria-labelledby="carousel-heading">
+        <h2 id="carousel-heading" class="sr-only">Hero Slider</h2>
+        <div id="hero-slider-container" class="relative h-full overflow-hidden">
+            <!-- Slides will be injected here by main.js -->
+        </div>
+        <!-- Slider controls -->
+        <button id="prev-slide" aria-label="Previous slide" class="absolute top-1/2 left-4 -translate-y-1/2 bg-white/50 p-2 rounded-full shadow-md hover:bg-white/80 focus:outline-none focus:ring-2 focus:ring-indigo-500 z-10">
+            <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+        </button>
+        <button id="next-slide" aria-label="Next slide" class="absolute top-1/2 right-4 -translate-y-1/2 bg-white/50 p-2 rounded-full shadow-md hover:bg-white/80 focus:outline-none focus:ring-2 focus:ring-indigo-500 z-10">
+            <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+        </button>
+        <!-- Slider indicators -->
+        <div id="slider-indicators" class="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2 z-10">
+            <!-- Indicators will be injected here -->
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <main class="container mx-auto px-4 py-12">
+        <h2 class="text-3xl font-bold text-center mb-8">Featured Products</h2>
+        <div id="featured-products-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            <!-- Product cards will be injected here -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer id="footer-container" class="bg-gray-800 text-white mt-12"></footer>
+
+    <!-- Toast Notification -->
+    <div id="toast-notification" class="fixed bottom-5 right-5 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 ease-in-out">
+        Product added to cart!
+    </div>
+
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

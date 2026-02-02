@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop - Perfume Shop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="bg-gray-50">
+
+    <header id="header-container" class="bg-white shadow-md"></header>
+
+    <div class="container mx-auto px-4 py-8 flex">
+        <!-- Sidebar -->
+        <aside class="w-1/4 pr-8">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-xl font-bold mb-4">Categories</h3>
+                <ul id="category-filter" class="space-y-2">
+                    <!-- Categories will be loaded here -->
+                </ul>
+
+                <h3 class="text-xl font-bold mt-8 mb-4">Brands</h3>
+                <ul id="brand-filter" class="space-y-2">
+                    <!-- Brands will be loaded here -->
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Product Grid -->
+        <main class="w-3/4">
+            <h1 class="text-3xl font-bold mb-6">All Products</h1>
+            <div id="shop-products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Products will be loaded here -->
+            </div>
+        </main>
+    </div>
+
+    <footer id="footer-container" class="bg-gray-800 text-white mt-12"></footer>
+
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/shop.js"></script>
+</body>
+</html>

@@ -20,31 +20,11 @@ $product->id = isset($_GET['id']) ? $_GET['id'] : die();
 $product_details = $product->readOne();
 
 if ($product_details) {
-    // Create array
-    $product_arr = array(
+    // The readOne method now returns the complete data array.
+    $product_arr = [
         'status' => 'success',
-        'data' => array(
-            'id' => $product->id,
-            'name' => $product->name,
-            'sku' => $product->sku,
-            'description' => $product->description,
-            'price' => $product->price,
-            'discount_price' => $product->discount_price,
-            'stock_quantity' => $product->stock_quantity,
-            'is_active' => $product->is_active,
-            'brand_id' => $product->brand_id,
-            'category_id' => $product->category_id,
-            'main_image_url' => $product->main_image_url,
-            'product_type' => $product->product_type,
-            'linked_product_id' => $product->linked_product_id,
-            'category_name' => $product->category_name,
-            'brand_name' => $product->brand_name,
-            // Nested data
-            'images' => $product->images,
-            'attributes' => $product->attributes,
-            'linked_product' => $product->linked_product
-        )
-    );
+        'data' => $product_details
+    ];
 
     // Set response code - 200 OK
     http_response_code(200);

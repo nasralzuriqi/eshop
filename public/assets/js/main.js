@@ -6,6 +6,18 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const response = await fetch(url);
             document.getElementById(containerId).innerHTML = await response.text();
+            if (containerId === 'header-container') {
+                // Scripts are now loaded and initialized here to ensure the DOM is ready
+                const headerScript = document.createElement('script');
+                headerScript.src = 'assets/js/header.js';
+                headerScript.onload = () => initializeHeader();
+                document.body.appendChild(headerScript);
+
+                const authScript = document.createElement('script');
+                authScript.src = 'assets/js/auth.js';
+                authScript.onload = () => initializeAuth();
+                document.body.appendChild(authScript);
+            }
         } catch (error) {
             console.error(`Failed to load component: ${url}`, error);
         }
@@ -17,10 +29,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Fetch and display featured products
     const fetchFeaturedProducts = async () => {
+        const grid = document.getElementById('featured-products-grid');
+        if (!grid) return; // Don't run if the element doesn't exist
+
         try {
             const response = await fetch(`${API_BASE_URL}?resource=products&action=read`); // In a real app, you'd have a specific 'featured' endpoint
             const result = await response.json();
-            const grid = document.getElementById('featured-products-grid');
             grid.innerHTML = '';
             if (result.status === 'success') {
                 // Just show the first 8 for now
@@ -50,10 +64,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Fetch and display hero slider
     const fetchHeroSlider = async () => {
+        const sliderContainer = document.getElementById('hero-slider-container');
+        if (!sliderContainer) return; // Don't run if the element doesn't exist
+
         try {
             const response = await fetch(`${API_BASE_URL}?resource=ui&action=hero_sliders`);
             const result = await response.json();
-            const sliderContainer = document.getElementById('hero-slider-container');
 
             if (result.status === 'success' && result.data.length > 0) {
                 sliderContainer.innerHTML = ''; // Clear existing content
@@ -200,11 +216,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Search form handler
+    // Search form handler for both desktop and mobile
     document.addEventListener('submit', (e) => {
-        if (e.target && e.target.id === 'search-form') {
+        if (e.target && (e.target.id === 'search-form' || e.target.id === 'mobile-search-form')) {
             e.preventDefault();
-            const searchInput = document.getElementById('search-input');
+            const searchInput = e.target.querySelector('input[type="search"]');
             const query = searchInput.value.trim();
             if (query) {
                 window.location.href = `shop.html?search=${encodeURIComponent(query)}`;

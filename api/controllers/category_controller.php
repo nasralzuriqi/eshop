@@ -2,13 +2,11 @@
 // Required headers
 header("Content-Type: application/json; charset=UTF-8");
 
-
-// Check if admin is logged in
-if (!isset($_SESSION['admin_id'])) {
-    http_response_code(401); // Unauthorized
-    echo json_encode(['status' => 'error', 'message' => 'Admin access required.']);
-    exit();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
 }
+
+
 
 // Include database and object files
 include_once __DIR__ . '/../../config/Database.php';
@@ -58,6 +56,11 @@ switch ($method) {
         break;
 
     case 'POST':
+        if (!isset($_SESSION['admin_id'])) {
+            http_response_code(401);
+            echo json_encode(['status' => 'error', 'message' => 'Admin access required.']);
+            exit();
+        }
         if (empty($data->name) || empty($data->slug)) {
             http_response_code(400);
             echo json_encode(['status' => 'error', 'message' => 'Category name and slug are required.']);
@@ -79,6 +82,11 @@ switch ($method) {
         break;
 
     case 'PUT':
+        if (!isset($_SESSION['admin_id'])) {
+            http_response_code(401);
+            echo json_encode(['status' => 'error', 'message' => 'Admin access required.']);
+            exit();
+        }
         if (empty($data->id) || empty($data->name) || empty($data->slug)) {
             http_response_code(400);
             echo json_encode(['status' => 'error', 'message' => 'Category ID, name, and slug are required.']);
@@ -101,6 +109,11 @@ switch ($method) {
         break;
 
     case 'DELETE':
+        if (!isset($_SESSION['admin_id'])) {
+            http_response_code(401);
+            echo json_encode(['status' => 'error', 'message' => 'Admin access required.']);
+            exit();
+        }
         if (empty($data->id)) {
             http_response_code(400);
             echo json_encode(['status' => 'error', 'message' => 'Category ID is required.']);

@@ -13,11 +13,17 @@ $db = $database->getConnection();
 // Initialize product object
 $product = new Product($db);
 
-// Check for a type filter
-$product_type_filter = isset($_GET['type']) ? $_GET['type'] : null;
+// Collect filter parameters from the request
+$params = [
+    'type' => $_GET['type'] ?? 'all',
+    'category' => $_GET['category'] ?? 'all',
+    'brand' => $_GET['brand'] ?? 'all',
+    'search' => $_GET['search'] ?? '',
+    'sort' => $_GET['sort'] ?? 'created_at_desc'
+];
 
 // Query products
-$stmt = $product->read($product_type_filter);
+$stmt = $product->read($params);
 $num = $stmt->rowCount();
 
 // Check if any products found

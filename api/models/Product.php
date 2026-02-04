@@ -27,47 +27,61 @@ class Product {
     }
 
     // Read all products
-    public function read($product_type = null) {
-        // Create query
+    public function read($params = []) {
         $query = 'SELECT
             c.name as category_name,
             b.name as brand_name,
-            p.id,
-            p.category_id,
-            p.brand_id,
-            p.name,
-            p.sku,
-            p.product_type,
-            p.price,
-            p.stock_quantity,
-            p.is_active,
-            p.main_image_url,
-            p.created_at
-        FROM
-            ' . $this->table_name . ' p
-        LEFT JOIN
-            categories c ON p.category_id = c.id
-        LEFT JOIN
-            brands b ON p.brand_id = b.id
-        ORDER BY
-            p.created_at DESC';
+            p.id, p.category_id, p.brand_id, p.name, p.sku, p.product_type, p.description,
+            p.price, p.discount_price, p.stock_quantity, p.is_active, p.main_image_url, p.created_at
+        FROM ' . $this->table_name . ' p
+        LEFT JOIN categories c ON p.category_id = c.id
+        LEFT JOIN brands b ON p.brand_id = b.id';
 
-        // Add a WHERE clause if a type filter is provided
-        if ($product_type) {
-            $query = str_replace('ORDER BY', 'WHERE p.product_type = :product_type ORDER BY', $query);
+        $where_clauses = [];
+        $bindings = [];
+
+        if (!empty($params['type']) && $params['type'] !== 'all') {
+            $where_clauses[] = 'p.product_type = :type';
+            $bindings[':type'] = $params['type'];
         }
 
-        // Prepare statement
+        if (!empty($params['category']) && $params['category'] !== 'all') {
+            $where_clauses[] = 'p.category_id = :category';
+            $bindings[':category'] = $params['category'];
+        }
+
+        if (!empty($params['brand']) && $params['brand'] !== 'all') {
+            $where_clauses[] = 'p.brand_id = :brand';
+            $bindings[':brand'] = $params['brand'];
+        }
+
+        if (!empty($params['search'])) {
+            $where_clauses[] = '(p.name LIKE :search OR b.name LIKE :search OR p.description LIKE :search)';
+            $bindings[':search'] = '%' . $params['search'] . '%';
+        }
+
+        if (count($where_clauses) > 0) {
+            $query .= ' WHERE ' . implode(' AND ', $where_clauses);
+        }
+
+        $sort_options = [
+            'price_asc' => 'p.price ASC',
+            'price_desc' => 'p.price DESC',
+            'name_asc' => 'p.name ASC',
+            'name_desc' => 'p.name DESC',
+            'created_at_desc' => 'p.created_at DESC'
+        ];
+
+        $sort_order = $sort_options[$params['sort']] ?? 'p.created_at DESC';
+        $query .= ' ORDER BY ' . $sort_order;
+
         $stmt = $this->conn->prepare($query);
 
-        // Bind the product type if it exists
-        if ($product_type) {
-            $stmt->bindParam(':product_type', $product_type);
+        foreach ($bindings as $key => &$val) {
+            $stmt->bindParam($key, $val);
         }
 
-        // Execute query
         $stmt->execute();
-
         return $stmt;
     }
 
@@ -102,7 +116,8 @@ class Product {
             return null; // Product not found
         }
 
-        // Set properties from the fetched row
+        // Set properties from the fetched row. It's crucial to set $this->id here.
+        $this->id = $row['id']; 
         $this->name = $row['name'];
         $this->sku = $row['sku'];
         $this->product_type = $row['product_type'];
@@ -115,17 +130,23 @@ class Product {
         $this->brand_id = $row['brand_id'];
         $this->category_id = $row['category_id'];
         $this->main_image_url = $row['main_image_url'];
-        
-        // Add brand and category names to the object
         $this->brand_name = $row['brand_name'];
         $this->category_name = $row['category_name'];
 
         // Now, fetch associated data
-        $this->images = $this->getProductImages();
-        $this->attributes = $this->getProductAttributes();
-        $this->linked_product = $this->getLinkedProduct();
+        $row['images'] = $this->getProductImages();
+        $row['attributes'] = $this->getProductAttributes();
 
-        return $row; // Return the fetched row for the controller
+        // Handle linked products based on product type
+        if ($row['product_type'] === 'inspired' && !empty($row['linked_product_id'])) {
+            // An inspired product links to ONE original product.
+            $row['linked_product'] = $this->getLinkedProduct($row['linked_product_id'], true);
+        } elseif ($row['product_type'] === 'original') {
+            // An original product can have MANY inspired products linking to it.
+            $row['linked_products'] = $this->getInspiredByProducts();
+        }
+
+        return $row; // Return the row with all associated data appended
     }
 
     // Helper function to get product gallery images
@@ -147,15 +168,24 @@ class Product {
     }
 
     // Helper function to get the linked "Inspired By" product details
-    private function getLinkedProduct() {
-        if (empty($this->linked_product_id)) {
+    private function getLinkedProduct($linkedId, $isSingle) {
+        if (empty($linkedId)) {
             return null;
         }
         $query = 'SELECT id, name, main_image_url FROM ' . $this->table_name . ' WHERE id = :linked_id';
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':linked_id', $this->linked_product_id);
+        $stmt->bindParam(':linked_id', $linkedId);
         $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $isSingle ? $stmt->fetch(PDO::FETCH_ASSOC) : $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Helper function to get all products inspired by the current original product
+    private function getInspiredByProducts() {
+        $query = 'SELECT id, name, main_image_url FROM ' . $this->table_name . ' WHERE linked_product_id = :original_id';
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':original_id', $this->id);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     // Create Product

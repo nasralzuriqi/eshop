@@ -84,14 +84,19 @@ document.addEventListener('DOMContentLoaded', () => {
     // Show/hide the 'Inspired By' dropdown and change label based on product type
     productTypeSelect.addEventListener('change', () => {
         const selectedType = productTypeSelect.value;
+        const linkedProductSelect = document.getElementById('linked_product_id');
+
         if (selectedType === 'inspired') {
             inspiredByContainer.classList.remove('hidden');
             linkedProductLabel.textContent = 'Inspired By (Link to Original)';
+            populateSelect(`${API_BASE_URL}?resource=products&action=read&type=original`, 'linked_product_id', 'id', 'name');
         } else if (selectedType === 'original') {
             inspiredByContainer.classList.remove('hidden');
-            linkedProductLabel.textContent = 'Link Product';
+            linkedProductLabel.textContent = 'Link Inspired Product';
+            populateSelect(`${API_BASE_URL}?resource=products&action=read&type=inspired`, 'linked_product_id', 'id', 'name');
         } else {
             inspiredByContainer.classList.add('hidden');
+            linkedProductSelect.innerHTML = ''; // Clear options
         }
     });
 
@@ -208,16 +213,24 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     // Handle 'Inspired By' and 'Linked Product'
                     const productType = product.product_type;
+                    const linkedProductSelect = document.getElementById('linked_product_id');
+                    
+                    const populateAndSetLinkedProduct = async (typeToFetch) => {
+                        await populateSelect(`${API_BASE_URL}?resource=products&action=read&type=${typeToFetch}`, 'linked_product_id', 'id', 'name');
+                        linkedProductSelect.value = product.linked_product_id;
+                    };
+
                     if (productType === 'inspired') {
                         inspiredByContainer.classList.remove('hidden');
                         linkedProductLabel.textContent = 'Inspired By (Link to Original)';
-                        document.getElementById('linked_product_id').value = product.linked_product_id;
+                        populateAndSetLinkedProduct('original');
                     } else if (productType === 'original') {
                         inspiredByContainer.classList.remove('hidden');
-                        linkedProductLabel.textContent = 'Link Product';
-                        document.getElementById('linked_product_id').value = product.linked_product_id;
+                        linkedProductLabel.textContent = 'Link Inspired Product';
+                        populateAndSetLinkedProduct('inspired');
                     } else {
                         inspiredByContainer.classList.add('hidden');
+                        linkedProductSelect.innerHTML = '';
                     }
 
                     // Show main image preview
@@ -291,8 +304,5 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Initial Data Loading ---
     populateSelect(`${API_BASE_URL}?resource=brands`, 'brand_id', 'id', 'name');
     populateSelect(`${API_BASE_URL}?resource=categories`, 'category_id', 'id', 'name');
-    // For the 'Inspired By' dropdown, we need to fetch only 'original' products.
-    // I will add a filter to the 'read_products.php' controller to handle this.
-    populateSelect(`${API_BASE_URL}?resource=products&action=read&type=original`, 'linked_product_id', 'id', 'name');
     fetchProducts();
 });

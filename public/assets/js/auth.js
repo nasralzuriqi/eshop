@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+const initializeAuth = () => {
     const API_BASE_URL = '../api/routes.php';
 
     const checkLoginStatus = async () => {
@@ -7,45 +7,51 @@ document.addEventListener('DOMContentLoaded', () => {
             const result = await response.json();
 
             const authLinksContainer = document.getElementById('auth-links');
-            if (!authLinksContainer) return;
+            const mobileAuthLinksContainer = document.getElementById('mobile-auth-links');
+            if (!authLinksContainer || !mobileAuthLinksContainer) return;
+
+            let desktopLinks = '';
+            let mobileLinks = '';
 
             if (result.status === 'success' && result.is_logged_in) {
-                authLinksContainer.innerHTML = `
-                    <a href="my_orders.html" class="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">My Orders</a>
-                    <span class="text-gray-800 dark:text-white font-medium">Welcome, ${result.username}</span>
-                    <a href="#" id="logout-btn" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800">Logout</a>
+                desktopLinks = `
+                    <a href="my_orders.html" class="text-sm font-medium text-gray-700 hover:text-indigo-600">My Orders</a>
+                    <span class="text-sm text-gray-800">Hi, ${result.username}</span>
+                    <a href="#" id="logout-btn" class="text-sm font-medium text-red-600 hover:text-red-800">Logout</a>
                 `;
-
-                const logoutBtn = document.getElementById('logout-btn');
-                if (logoutBtn) {
-                    logoutBtn.addEventListener('click', async (e) => {
-                        e.preventDefault();
-                        await fetch(`${API_BASE_URL}?resource=auth&action=logout`);
-                        window.location.reload();
-                    });
-                }
+                mobileLinks = `
+                    <a href="my_orders.html" class="block px-4 py-2 text-gray-700 hover:bg-indigo-50 rounded">My Orders</a>
+                    <a href="#" id="mobile-logout-btn" class="block px-4 py-2 text-red-600 hover:bg-red-50 rounded">Logout</a>
+                `;
             } else {
-                authLinksContainer.innerHTML = `
-                    <a href="login.html" class="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">Log in</a>
-                    <a href="register.html" class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">Register</a>
+                desktopLinks = `
+                    <a href="login.html" class="text-sm font-medium text-gray-700 hover:text-indigo-600">Log in</a>
+                    <a href="register.html" class="text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 px-3 py-2 rounded-md">Register</a>
+                `;
+                mobileLinks = `
+                    <a href="login.html" class="block px-4 py-2 text-gray-700 hover:bg-indigo-50 rounded">Log in</a>
+                    <a href="register.html" class="block px-4 py-2 text-gray-700 hover:bg-indigo-50 rounded">Register</a>
                 `;
             }
+
+            authLinksContainer.innerHTML = desktopLinks;
+            mobileAuthLinksContainer.innerHTML = mobileLinks;
+
+            const handleLogout = async (e) => {
+                e.preventDefault();
+                await fetch(`${API_BASE_URL}?resource=auth&action=logout`);
+                window.location.reload();
+            };
+
+            const logoutBtn = document.getElementById('logout-btn');
+            if (logoutBtn) logoutBtn.addEventListener('click', handleLogout);
+
+            const mobileLogoutBtn = document.getElementById('mobile-logout-btn');
+            if (mobileLogoutBtn) mobileLogoutBtn.addEventListener('click', handleLogout);
         } catch (error) {
             console.error('Failed to check login status:', error);
         }
     };
 
-    // We need to wait for the header to be loaded first
-    const headerContainer = document.getElementById('header-container');
-    const observer = new MutationObserver((mutationsList, observer) => {
-        for(const mutation of mutationsList) {
-            if (mutation.type === 'childList' && document.getElementById('auth-links')) {
-                checkLoginStatus();
-                observer.disconnect(); // Stop observing once the header is loaded
-                return;
-            }
-        }
-    });
-
-    observer.observe(headerContainer, { childList: true, subtree: true });
-});
+    checkLoginStatus();
+};

@@ -4,11 +4,6 @@ header("Content-Type: application/json; charset=UTF-8");
 include_once __DIR__ . '/../../config/Database.php';
 include_once __DIR__ . '/../models/ShopSetting.php';
 
-if (!isset($_SESSION['admin_id'])) {
-    http_response_code(401);
-    echo json_encode(['status' => 'error', 'message' => 'Admin access required.']);
-    exit();
-}
 
 $database = Database::getInstance();
 $db = $database->getConnection();
@@ -47,6 +42,12 @@ switch ($method) {
         break;
 
     case 'POST':
+        if (!isset($_SESSION['admin_id'])) {
+            http_response_code(401);
+            echo json_encode(['status' => 'error', 'message' => 'Admin access required.']);
+            exit();
+        }
+
         header('Content-Type: application/json');
         
         try {

@@ -33,7 +33,7 @@
 
     <!-- Featured Products -->
     <main class="container mx-auto px-4 py-12">
-        <h2 class="text-3xl font-bold text-center mb-8">Featured Products</h2>
+        <h2 class="text-3xl font-bold text-center mb-8" data-i18n-key="featured_products">Featured Products</h2>
         <div id="featured-products-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
             <!-- Product cards will be injected here -->
         </div>
@@ -43,10 +43,11 @@
     <footer id="footer-container" class="bg-gray-800 text-white mt-12"></footer>
 
     <!-- Toast Notification -->
-    <div id="toast-notification" class="fixed bottom-5 right-5 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 ease-in-out">
+    <div id="toast-notification" class="fixed bottom-5 right-5 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 ease-in-out" data-i18n-key="product_added_to_cart">
         Product added to cart!
     </div>
 
+    <script src="assets/js/i18n.js"></script>
     <script src="assets/js/main.js"></script>
 </body>
 </html>

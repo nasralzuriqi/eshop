@@ -1,1 +1,93 @@
 /* Custom styles can be added here if needed */
+
+/*-------------------------------------------------------------------
+    RTL Overrides
+-------------------------------------------------------------------*/
+[dir="rtl"] body {
+    text-align: right;
+}
+
+/* Utilities */
+[dir="rtl"] .mr-4 {
+    margin-right: 0;
+    margin-left: 1rem; /* 16px */
+}
+
+[dir="rtl"] .ml-3 {
+    margin-left: 0;
+    margin-right: 0.75rem; /* 12px */
+}
+
+[dir="rtl"] .mr-2 {
+    margin-right: 0;
+    margin-left: 0.5rem; /* 8px */
+}
+
+[dir="rtl"] .mr-3 {
+    margin-right: 0;
+    margin-left: 0.75rem; /* 12px */
+}
+
+[dir="rtl"] .ml-1 {
+    margin-left: 0;
+    margin-right: 0.25rem; /* 4px */
+}
+
+[dir="rtl"] .pl-4 {
+    padding-left: 0;
+    padding-right: 1rem;
+}
+
+[dir="rtl"] .pr-12 {
+    padding-right: 0;
+    padding-left: 3rem;
+}
+
+[dir="rtl"] .text-right {
+    text-align: left;
+}
+
+[dir="rtl"] .text-left {
+    text-align: right;
+}
+
+/* Header */
+[dir="rtl"] .lg\:flex.items-center.space-x-8 > a {
+    margin-right: 2rem; /* 32px */
+    margin-left: 0;
+}
+
+[dir="rtl"] .space-x-6 > :not([hidden]) ~ :not([hidden]) {
+    --tw-space-x-reverse: 1;
+}
+
+[dir="rtl"] .space-x-4 > :not([hidden]) ~ :not([hidden]) {
+    --tw-space-x-reverse: 1;
+}
+
+[dir="rtl"] .space-x-2 > :not([hidden]) ~ :not([hidden]) {
+    --tw-space-x-reverse: 1;
+}
+
+[dir="rtl"] #search-form button,
+[dir="rtl"] #mobile-search-form button {
+    right: auto;
+    left: 0.75rem; /* 12px */
+}
+
+[dir="rtl"] #search-form input,
+[dir="rtl"] #mobile-search-form input {
+    padding-right: 1rem; /* 16px */
+    padding-left: 2.5rem; /* 40px to make space for the icon */
+}
+
+/* Cart Page */
+[dir="rtl"] .flex.items-center.justify-between {
+    text-align: right;
+}
+
+/* Shop Page */
+[dir="rtl"] .fa-chevron-down {
+    right: auto;
+    left: 0.75rem;
+}

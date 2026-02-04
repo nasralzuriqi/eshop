@@ -15,22 +15,22 @@ const initializeAuth = () => {
 
             if (result.status === 'success' && result.is_logged_in) {
                 desktopLinks = `
-                    <a href="my_orders.html" class="text-sm font-medium text-gray-700 hover:text-indigo-600">My Orders</a>
-                    <span class="text-sm text-gray-800">Hi, ${result.username}</span>
-                    <a href="#" id="logout-btn" class="text-sm font-medium text-red-600 hover:text-red-800">Logout</a>
+                    <a href="my_orders.html" class="text-sm font-medium text-gray-700 hover:text-indigo-600">${getTranslation('my_orders')}</a>
+                    <span class="text-sm text-gray-800">${getTranslation('hi_user')}${result.username}</span>
+                    <a href="#" id="logout-btn" class="text-sm font-medium text-red-600 hover:text-red-800">${getTranslation('logout')}</a>
                 `;
                 mobileLinks = `
-                    <a href="my_orders.html" class="block px-4 py-2 text-gray-700 hover:bg-indigo-50 rounded">My Orders</a>
-                    <a href="#" id="mobile-logout-btn" class="block px-4 py-2 text-red-600 hover:bg-red-50 rounded">Logout</a>
+                    <a href="my_orders.html" class="block px-4 py-2 text-gray-700 hover:bg-indigo-50 rounded">${getTranslation('my_orders')}</a>
+                    <a href="#" id="mobile-logout-btn" class="block px-4 py-2 text-red-600 hover:bg-red-50 rounded">${getTranslation('logout')}</a>
                 `;
             } else {
                 desktopLinks = `
-                    <a href="login.html" class="text-sm font-medium text-gray-700 hover:text-indigo-600">Log in</a>
-                    <a href="register.html" class="text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 px-3 py-2 rounded-md">Register</a>
+                    <a href="login.html" class="text-sm font-medium text-gray-700 hover:text-indigo-600">${getTranslation('login')}</a>
+                    <a href="register.html" class="text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 px-3 py-2 rounded-md">${getTranslation('register_nav')}</a>
                 `;
                 mobileLinks = `
-                    <a href="login.html" class="block px-4 py-2 text-gray-700 hover:bg-indigo-50 rounded">Log in</a>
-                    <a href="register.html" class="block px-4 py-2 text-gray-700 hover:bg-indigo-50 rounded">Register</a>
+                    <a href="login.html" class="block px-4 py-2 text-gray-700 hover:bg-indigo-50 rounded">${getTranslation('login')}</a>
+                    <a href="register.html" class="block px-4 py-2 text-gray-700 hover:bg-indigo-50 rounded">${getTranslation('register_nav')}</a>
                 `;
             }
 

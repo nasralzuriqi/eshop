@@ -3,29 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Perfume Shop</title>
+    <title data-i18n-key="login_title">Login - Perfume Shop</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body class="bg-gray-100 flex items-center justify-center h-screen">
     <div class="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
-        <h1 class="text-2xl font-bold text-center text-gray-900">Customer Login</h1>
+        <h1 class="text-2xl font-bold text-center text-gray-900" data-i18n-key="customer_login">Customer Login</h1>
         <form id="login-form" class="space-y-6">
             <div>
-                <label for="email" class="text-sm font-medium text-gray-700">Email</label>
+                <label for="email" class="text-sm font-medium text-gray-700" data-i18n-key="email">Email</label>
                 <input type="email" id="email" required class="w-full px-3 py-2 mt-1 border rounded-md">
             </div>
             <div>
-                <label for="password" class="text-sm font-medium text-gray-700">Password</label>
+                <label for="password" class="text-sm font-medium text-gray-700" data-i18n-key="password">Password</label>
                 <input type="password" id="password" required class="w-full px-3 py-2 mt-1 border rounded-md">
             </div>
             <div>
-                <button type="submit" class="w-full px-4 py-2 font-medium text-white bg-indigo-600 rounded-md">Sign In</button>
+                <button type="submit" class="w-full px-4 py-2 font-medium text-white bg-indigo-600 rounded-md" data-i18n-key="sign_in">Sign In</button>
             </div>
         </form>
-        <p class="text-center text-sm">Don't have an account? <a href="register.html" class="text-indigo-600">Register here</a>.</p>
+        <p class="text-center text-sm"><span data-i18n-key="dont_have_account">Don't have an account? </span><a href="register.html" class="text-indigo-600" data-i18n-key="register_here">Register here</a>.</p>
     </div>
 
+    <script src="assets/js/i18n.js"></script>
     <script>
         document.getElementById('login-form').addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -41,11 +42,11 @@
 
             if (result.status === 'success') {
                 // In a real app, you'd get a token. Here we just confirm and redirect.
-                Swal.fire('Success', 'Login successful!', 'success').then(() => {
+                Swal.fire(getTranslation('success'), getTranslation('login_successful'), 'success').then(() => {
                     window.location.href = 'index.html';
                 });
             } else {
-                Swal.fire('Error', result.message, 'error');
+                Swal.fire(getTranslation('order_error'), result.message, 'error');
             }
         });
     </script>

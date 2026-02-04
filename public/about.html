@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us - PerfumeShop</title>
+    <title data-i18n-key="about_us_title">About Us - PerfumeShop</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
@@ -14,30 +14,30 @@
 
     <main class="container mx-auto px-4 py-12">
         <div class="bg-white p-8 rounded-lg shadow-lg">
-            <h1 class="text-4xl font-bold text-center mb-6">About Our Perfume Shop</h1>
-            <p id="shop-description" class="text-lg text-gray-700 text-center mb-12">Loading shop description...</p>
+            <h1 class="text-4xl font-bold text-center mb-6" data-i18n-key="about_our_perfume_shop">About Our Perfume Shop</h1>
+            <p id="shop-description" class="text-lg text-gray-700 text-center mb-12" data-i18n-key="loading_shop_description">Loading shop description...</p>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
                 <div class="flex flex-col items-center">
                     <i class="fas fa-map-marker-alt text-4xl text-indigo-600 mb-3"></i>
-                    <h3 class="font-bold text-xl mb-2">Our Address</h3>
-                    <p id="shop-address" class="text-gray-600">Loading...</p>
+                    <h3 class="font-bold text-xl mb-2" data-i18n-key="our_address">Our Address</h3>
+                    <p id="shop-address" class="text-gray-600" data-i18n-key="loading">Loading...</p>
                 </div>
                 <div class="flex flex-col items-center">
                     <i class="fas fa-phone-alt text-4xl text-indigo-600 mb-3"></i>
-                    <h3 class="font-bold text-xl mb-2">Call Us</h3>
-                    <p id="shop-phone" class="text-gray-600">Loading...</p>
+                    <h3 class="font-bold text-xl mb-2" data-i18n-key="call_us">Call Us</h3>
+                    <p id="shop-phone" class="text-gray-600" data-i18n-key="loading">Loading...</p>
                 </div>
                 <div class="flex flex-col items-center">
                     <i class="fas fa-envelope text-4xl text-indigo-600 mb-3"></i>
-                    <h3 class="font-bold text-xl mb-2">Email Us</h3>
-                    <p id="shop-email" class="text-gray-600">Loading...</p>
+                    <h3 class="font-bold text-xl mb-2" data-i18n-key="email_us">Email Us</h3>
+                    <p id="shop-email" class="text-gray-600" data-i18n-key="loading">Loading...</p>
                 </div>
             </div>
         </div>
 
         <div class="mt-12">
-            <h2 class="text-3xl font-bold text-center mb-6">Follow Us</h2>
+            <h2 class="text-3xl font-bold text-center mb-6" data-i18n-key="follow_us">Follow Us</h2>
             <div id="social-links-about" class="flex justify-center space-x-6">
                 <!-- Social media links will be injected here by about.js -->
             </div>
@@ -46,6 +46,7 @@
 
     <footer id="footer-container" class="bg-gray-800 text-white mt-12"></footer>
 
+    <script src="assets/js/i18n.js"></script>
     <script src="assets/js/main.js"></script>
     <script src="assets/js/about.js"></script>
 </body>

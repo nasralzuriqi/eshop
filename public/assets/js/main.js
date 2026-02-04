@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <p class="text-gray-500">${product.brand_name}</p>
                                 <div class="flex justify-between items-center mt-4">
                                     <span class="text-xl font-bold text-indigo-600">$${product.price}</span>
-                                    <button class="px-3 py-1 bg-indigo-600 text-white text-sm rounded-md hover:bg-indigo-700 add-to-cart-btn" data-id="${product.id}">Add to Cart</button>
+                                    <button class="px-3 py-1 bg-indigo-600 text-white text-sm rounded-md hover:bg-indigo-700 add-to-cart-btn" data-id="${product.id}">${getTranslation('add_to_cart')}</button>
                                 </div>
                             </div>
                         </div>
@@ -197,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             const result = await response.json();
             if (result.status === 'success') {
-                showToast('Product added to cart!');
+                showToast(getTranslation('product_added_to_cart'));
                 updateCartCount();
             } else {
                 showToast(`Error: ${result.message}`);
@@ -248,22 +248,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Footer
                 document.getElementById('shop-name-footer').textContent = settings.site_name;
                 document.getElementById('shop-address-footer').textContent = settings.address;
-                document.getElementById('shop-phone-footer').textContent = `Phone: ${settings.phone_number}`;
-                document.getElementById('shop-email-footer').textContent = `Email: ${settings.email}`;
+                document.getElementById('shop-phone-footer').textContent = `${getTranslation('phone_prefix')}${settings.phone_number}`;
+                document.getElementById('shop-email-footer').textContent = `${getTranslation('email_prefix')}${settings.email}`;
                 
                 const socialLinksContainer = document.getElementById('social-links-footer');
                 socialLinksContainer.innerHTML = ''; // Clear existing
-                if (settings.facebook_url) socialLinksContainer.innerHTML += `<a href="${settings.facebook_url}" class="text-gray-400 hover:text-white">Facebook</a>`;
-                if (settings.instagram_url) socialLinksContainer.innerHTML += `<a href="${settings.instagram_url}" class="text-gray-400 hover:text-white">Instagram</a>`;
-                if (settings.tiktok_url) socialLinksContainer.innerHTML += `<a href="${settings.tiktok_url}" class="text-gray-400 hover:text-white">TikTok</a>`;
+                if (settings.facebook_url) socialLinksContainer.innerHTML += `<a href="${settings.facebook_url}" class="text-gray-400 hover:text-white">${getTranslation('facebook')}</a>`;
+                if (settings.instagram_url) socialLinksContainer.innerHTML += `<a href="${settings.instagram_url}" class="text-gray-400 hover:text-white">${getTranslation('instagram')}</a>`;
+                if (settings.tiktok_url) socialLinksContainer.innerHTML += `<a href="${settings.tiktok_url}" class="text-gray-400 hover:text-white">${getTranslation('tiktok')}</a>`;
 
                 const whatsappContainer = document.getElementById('whatsapp-link-footer');
                 if (settings.phone_number && whatsappContainer) {
                     const whatsappNumber = settings.phone_number.replace(/\D/g, '');
-                    whatsappContainer.innerHTML = `<a href="https://wa.me/${whatsappNumber}" target="_blank" class="text-gray-400 hover:text-white flex items-center"><i class="fab fa-whatsapp text-lg mr-2"></i> Chat on WhatsApp</a>`;
+                    whatsappContainer.innerHTML = `<a href="https://wa.me/${whatsappNumber}" target="_blank" class="text-gray-400 hover:text-white flex items-center"><i class="fab fa-whatsapp text-lg mr-2"></i> ${getTranslation('chat_on_whatsapp')}</a>`;
                 }
 
-                document.getElementById('copyright-footer').innerHTML = `&copy; ${new Date().getFullYear()} ${settings.site_name}. All Rights Reserved.`;
+                document.getElementById('copyright-footer').innerHTML = `&copy; ${new Date().getFullYear()} ${settings.site_name}. ${getTranslation('rights_reserved')}`;
             }
         } catch (error) {
             console.error('Failed to fetch shop settings:', error);

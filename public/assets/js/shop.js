@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const renderProducts = (products) => {
         productsGrid.innerHTML = '';
         if (!products || products.length === 0) {
-            productsGrid.innerHTML = '<p class="col-span-full text-center text-gray-500 text-lg py-8">No products found matching your criteria.</p>';
+            productsGrid.innerHTML = `<p class="col-span-full text-center text-gray-500 text-lg py-8">${getTranslation('no_products_found')}</p>`;
             return;
         }
         products.forEach(product => {
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <img src="../${product.main_image_url}" alt="${product.name}" class="w-full h-32 object-contain">
                             </a>
                         </div>
-                        ${discountPercentage > 0 ? `<div class="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">${discountPercentage}% OFF</div>` : ''}
+                        ${discountPercentage > 0 ? `<div class="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">${discountPercentage}${getTranslation('percent_off')}</div>` : ''}
                     </div>
                     <div class="mt-3 flex-grow">
                         <h3 class="font-semibold text-gray-800 text-sm truncate">${product.name}</h3>
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <span class="text-xl font-bold text-indigo-600">$${discountPrice > 0 ? discountPrice.toFixed(2) : originalPrice.toFixed(2)}</span>
                                 ${discountPrice > 0 ? `<span class="text-sm text-gray-500 line-through ml-2">$${originalPrice.toFixed(2)}</span>` : ''}
                             </div>
-                            <button class="px-4 py-2 bg-indigo-600 text-white text-sm font-semibold rounded-full hover:bg-indigo-700 transition-colors duration-300 add-to-cart-btn" data-id="${product.id}">Add to Cart</button>
+                            <button class="px-4 py-2 bg-indigo-600 text-white text-sm font-semibold rounded-full hover:bg-indigo-700 transition-colors duration-300 add-to-cart-btn" data-id="${product.id}">${getTranslation('add_to_cart')}</button>
                         </div>
                     </div>
                 </div>
@@ -95,14 +95,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const catData = await catRes.json();
             const brandData = await brandRes.json();
 
-            categoryFilter.innerHTML = '<li><a href="#" class="filter-link text-gray-600 hover:text-indigo-600 transition-colors duration-200 active" data-type="category" data-id="all">All Categories</a></li>';
+            categoryFilter.innerHTML = `<li><a href="#" class="filter-link text-gray-600 hover:text-indigo-600 transition-colors duration-200 active" data-type="category" data-id="all">${getTranslation('all_categories')}</a></li>`;
             if (catData.status === 'success') {
                 catData.data.forEach(cat => {
                     categoryFilter.innerHTML += `<li><a href="#" class="filter-link text-gray-600 hover:text-indigo-600 transition-colors duration-200" data-type="category" data-id="${cat.id}">${cat.name}</a></li>`;
                 });
             }
 
-            brandFilter.innerHTML = '<li><a href="#" class="filter-link text-gray-600 hover:text-indigo-600 transition-colors duration-200 active" data-type="brand" data-id="all">All Brands</a></li>';
+            brandFilter.innerHTML = `<li><a href="#" class="filter-link text-gray-600 hover:text-indigo-600 transition-colors duration-200 active" data-type="brand" data-id="all">${getTranslation('all_brands')}</a></li>`;
             if (brandData.status === 'success') {
                 brandData.data.forEach(brand => {
                     brandFilter.innerHTML += `<li><a href="#" class="filter-link text-gray-600 hover:text-indigo-600 transition-colors duration-200" data-type="brand" data-id="${brand.id}">${brand.name}</a></li>`;
@@ -110,8 +110,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } catch (error) {
             console.error('Failed to load filters:', error);
-            categoryFilter.innerHTML = '<li class="text-red-500">Error loading categories.</li>';
-            brandFilter.innerHTML = '<li class="text-red-500">Error loading brands.</li>';
+            categoryFilter.innerHTML = `<li class="text-red-500">${getTranslation('error_loading_categories')}</li>`;
+            brandFilter.innerHTML = `<li class="text-red-500">${getTranslation('error_loading_brands')}</li>`;
         }
     };
 
@@ -157,9 +157,9 @@ document.addEventListener('DOMContentLoaded', () => {
         sortSelect.value = state.sort;
 
         if (state.search) {
-            shopTitle.textContent = `Search Results for "${state.search}"`;
+            shopTitle.textContent = `${getTranslation('search_results_for')} "${state.search}"`;
         } else {
-            shopTitle.textContent = 'All Products';
+            shopTitle.textContent = getTranslation('all_products');
         }
     };
 

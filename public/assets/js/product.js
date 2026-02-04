@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const getProductId = () => new URLSearchParams(window.location.search).get('id');
 
     const renderProduct = (product) => {
-        document.title = `${product.name} - Perfume Shop`;
+        document.title = `${product.name}${getTranslation('perfume_shop_suffix')}`;
 
         const discountPrice = parseFloat(product.discount_price);
         const originalPrice = parseFloat(product.price);
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 attributesHtml += `<li class="flex justify-between py-2 border-b"><span class="font-semibold text-gray-600">${attr.attribute_key}</span><span class="text-gray-800">${attr.attribute_value}</span></li>`;
             });
         } else {
-            attributesHtml = '<p>No scent notes available.</p>';
+            attributesHtml = `<p>${getTranslation('no_scent_notes')}</p>`;
         }
 
         const productHtml = `
@@ -49,15 +49,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                     <div class="mt-6">
                         <button class="w-full px-8 py-4 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors duration-300 add-to-cart-btn flex items-center justify-center" data-id="${product.id}">
-                            <i class="fas fa-shopping-cart mr-3"></i> Add to Cart
+                            <i class="fas fa-shopping-cart mr-3"></i> ${getTranslation('add_to_cart')}
                         </button>
                     </div>
                     <div class="mt-8">
-                        <h3 class="font-bold text-xl text-gray-800 mb-4 border-b pb-2">Description</h3>
+                        <h3 class="font-bold text-xl text-gray-800 mb-4 border-b pb-2" data-i18n-key="description">Description</h3>
                         <p class="text-gray-600 leading-relaxed">${product.description}</p>
                     </div>
                     <div class="mt-8">
-                        <h3 class="font-bold text-xl text-gray-800 mb-4 border-b pb-2">Scent Notes</h3>
+                        <h3 class="font-bold text-xl text-gray-800 mb-4 border-b pb-2" data-i18n-key="scent_notes">Scent Notes</h3>
                         <ul class="space-y-2">${attributesHtml}</ul>
                     </div>
                 </div>
@@ -85,9 +85,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const renderLinkedProduct = (type, linkedProducts) => {
         let title = '';
         if (type === 'inspired') {
-            title = 'Original By';
+            title = getTranslation('original_by');
         } else if (type === 'original') {
-            title = 'Inspired By';
+            title = getTranslation('inspired_by');
         }
         linkedProductTitle.textContent = title;
 
@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <img src="../${product.main_image_url}" alt="${product.name}" class="w-full h-48 object-cover">
                     <div class="p-4">
                         <h3 class="text-lg font-semibold text-gray-800 truncate">${product.name}</h3>
-                        <p class="text-indigo-600 font-semibold mt-2">View Product <i class="fas fa-arrow-right ml-1"></i></p>
+                        <p class="text-indigo-600 font-semibold mt-2">${getTranslation('view_product')} <i class="fas fa-arrow-right ml-1"></i></p>
                     </div>
                 </a>
             `;
@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const fetchProductDetails = async () => {
         const productId = getProductId();
         if (!productId) {
-            productContainer.innerHTML = '<p class="text-center text-red-500">Product ID is missing. Please select a product from the shop.</p>';
+            productContainer.innerHTML = `<p class="text-center text-red-500">${getTranslation('product_id_missing')}</p>`;
             return;
         }
 
@@ -123,11 +123,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (result.status === 'success') {
                 renderProduct(result.data);
             } else {
-                productContainer.innerHTML = `<p class="text-center text-red-500">Error: ${result.message}</p>`;
+                productContainer.innerHTML = `<p class="text-center text-red-500">${getTranslation('error_prefix')}${result.message}</p>`;
             }
         } catch (error) {
             console.error('Failed to fetch product details:', error);
-            productContainer.innerHTML = '<p class="text-center text-red-500">An error occurred while fetching product data.</p>';
+            productContainer.innerHTML = `<p class="text-center text-red-500">${getTranslation('error_fetching_product')}</p>`;
         }
     };
 

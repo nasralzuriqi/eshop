@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Orders - PerfumeShop</title>
+    <title data-i18n-key="my_orders_title">My Orders - PerfumeShop</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
@@ -15,7 +15,7 @@
     <!-- Main Content -->
     <main class="container mx-auto px-4 py-12">
         <div id="orders-container">
-            <h1 class="text-3xl font-bold text-center mb-8">My Orders</h1>
+            <h1 class="text-3xl font-bold text-center mb-8" data-i18n-key="my_orders">My Orders</h1>
             <div id="orders-list" class="space-y-6">
                 <!-- Orders will be injected here -->
             </div>
@@ -25,6 +25,7 @@
     <!-- Footer -->
     <footer id="footer-container" class="bg-gray-800 text-white mt-12"></footer>
 
+    <script src="assets/js/i18n.js"></script>
     <script src="assets/js/main.js"></script>
     <script src="assets/js/my_orders.js"></script>
 </body>

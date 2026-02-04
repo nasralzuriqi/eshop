@@ -56,8 +56,11 @@ class Product {
         }
 
         if (!empty($params['search'])) {
-            $where_clauses[] = '(p.name LIKE :search OR b.name LIKE :search OR p.description LIKE :search)';
-            $bindings[':search'] = '%' . $params['search'] . '%';
+            $search_term = '%' . $params['search'] . '%';
+            $where_clauses[] = '(p.name LIKE :search_name OR b.name LIKE :search_brand OR p.description LIKE :search_desc)';
+            $bindings[':search_name'] = $search_term;
+            $bindings[':search_brand'] = $search_term;
+            $bindings[':search_desc'] = $search_term;
         }
 
         if (count($where_clauses) > 0) {

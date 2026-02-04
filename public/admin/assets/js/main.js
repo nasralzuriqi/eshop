@@ -1,4 +1,3 @@
-// Check for admin session on every page load
 (function() {
     const adminUser = sessionStorage.getItem('admin_user');
     if (!adminUser && !window.location.pathname.endsWith('login.html')) {
@@ -6,29 +5,33 @@
         return;
     }
 
-    // Function to fetch and inject HTML components
-    const loadComponent = async (url, containerId) => {
+    const loadComponent = async (url, containerId, callback) => {
         try {
             const response = await fetch(url);
-            if (!response.ok) throw new Error('Component not found');
+            if (!response.ok) throw new Error(`Component not found at ${url}`);
             const html = await response.text();
-            document.getElementById(containerId).innerHTML = html;
+            const container = document.getElementById(containerId);
+            if (container) {
+                container.innerHTML = html;
+                if (callback) callback();
+            }
         } catch (error) {
-            console.error(`Failed to load component from ${url}:`, error);
+            console.error(`Failed to load component:`, error);
         }
     };
 
-    // Load sidebar and header into the respective containers
-    // The actual HTML files for these will be created next
-    if (document.getElementById('sidebar-container')) {
-        loadComponent('_sidebar.html', 'sidebar-container');
-    }
-    if (document.getElementById('header-container')) {
-        loadComponent('_header.html', 'header-container');
-    }
-})();
+    const loadAdminScripts = () => {
+        const layoutScript = document.createElement('script');
+        layoutScript.src = './assets/js/admin_layout.js';
+        document.body.appendChild(layoutScript);
+    };
 
-function logout() {
-    sessionStorage.removeItem('admin_user');
-    window.location.href = 'login.html';
-}
+    document.addEventListener('DOMContentLoaded', () => {
+        if (document.getElementById('sidebar-container')) {
+            loadComponent('_sidebar.html', 'sidebar-container');
+        }
+        if (document.getElementById('header-container')) {
+            loadComponent('_header.html', 'header-container', loadAdminScripts);
+        }
+    });
+})();

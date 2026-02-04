@@ -210,8 +210,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Global event listener for add to cart buttons
     document.addEventListener('click', (e) => {
-        if (e.target && e.target.classList.contains('add-to-cart-btn')) {
-            const productId = e.target.dataset.id;
+        const cartButton = e.target.closest('.add-to-cart-btn');
+        if (cartButton) {
+            const productId = cartButton.dataset.id;
             addToCart(productId);
         }
     });
@@ -221,9 +222,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target && (e.target.id === 'search-form' || e.target.id === 'mobile-search-form')) {
             e.preventDefault();
             const searchInput = e.target.querySelector('input[type="search"]');
-            const query = searchInput.value.trim();
-            if (query) {
-                window.location.href = `shop.html?search=${encodeURIComponent(query)}`;
+            if (searchInput) {
+                const query = searchInput.value.trim();
+                if (query) {
+                    window.location.href = `shop.html?search=${encodeURIComponent(query)}`;
+                }
             }
         }
     });

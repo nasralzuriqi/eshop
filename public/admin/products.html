@@ -6,11 +6,13 @@
     <title>Manage Products - Admin Panel</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/admin_layout.css">
 </head>
-<body class="bg-gray-100">
-    <div id="app-container" class="flex">
+<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+    <div class="flex flex-col md:flex-row">
         <div id="sidebar-container"></div>
-        <div class="flex-1 flex flex-col">
+        <div class="main-content flex-1 flex flex-col w-full">
             <div id="header-container"></div>
             <main class="p-6">
                 <div class="flex justify-between items-center">
@@ -19,7 +21,7 @@
                 </div>
 
                 <!-- Product List -->
-                <div class="mt-6 bg-white p-6 rounded-lg shadow-md">
+                <div class="mt-6 bg-white p-6 rounded-lg shadow-md overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
                             <tr>
@@ -41,47 +43,51 @@
     </div>
 
     <!-- Add/Edit Product Modal -->
-    <div id="product-modal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
-        <div class="relative top-20 mx-auto p-5 border w-full max-w-4xl shadow-lg rounded-md bg-white">
+    <div id="product-modal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+        <div class="relative top-10 mx-auto p-5 border w-full max-w-4xl shadow-lg rounded-md bg-white">
+            <div class="flex justify-between items-center pb-3">
+                <h3 id="modal-title" class="text-2xl font-bold text-gray-900">Add New Product</h3>
+                <div id="cancel-btn" class="cursor-pointer z-50">
+                    <i class="fas fa-times text-gray-400 hover:text-gray-600"></i>
+                </div>
+            </div>
             <div class="mt-3">
-                <h3 id="modal-title" class="text-lg leading-6 font-medium text-gray-900">Add New Product</h3>
                 <form id="product-form" class="mt-4 space-y-6">
                     <input type="hidden" id="product-id" name="id">
-                    <!-- Form content will be extensive and added in the next step -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Name</label>
-                            <input type="text" id="name" name="name" class="mt-1 block w-full" required>
+                            <input type="text" id="name" name="name" class="mt-1 block w-full p-2.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 shadow-sm" required>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">SKU</label>
-                            <input type="text" id="sku" name="sku" class="mt-1 block w-full" required>
+                            <input type="text" id="sku" name="sku" class="mt-1 block w-full p-2.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 shadow-sm" required>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Price</label>
-                            <input type="number" id="price" name="price" class="mt-1 block w-full" required>
+                            <input type="number" id="price" name="price" class="mt-1 block w-full p-2.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 shadow-sm" required>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Stock Quantity</label>
-                            <input type="number" id="stock_quantity" name="stock_quantity" class="mt-1 block w-full">
+                            <input type="number" id="stock_quantity" name="stock_quantity" class="mt-1 block w-full p-2.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 shadow-sm">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Brand</label>
-                            <select id="brand_id" name="brand_id" class="mt-1 block w-full"></select>
+                            <select id="brand_id" name="brand_id" class="mt-1 block w-full p-2.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 shadow-sm"></select>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Category</label>
-                            <select id="category_id" name="category_id" class="mt-1 block w-full"></select>
+                            <select id="category_id" name="category_id" class="mt-1 block w-full p-2.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 shadow-sm"></select>
                         </div>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Description</label>
-                        <textarea id="description" name="description" rows="4" class="mt-1 block w-full"></textarea>
+                        <textarea id="description" name="description" rows="4" class="mt-1 block w-full p-2.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 shadow-sm"></textarea>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Product Type</label>
-                            <select id="product_type" name="product_type" class="mt-1 block w-full">
+                            <select id="product_type" name="product_type" class="mt-1 block w-full p-2.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 shadow-sm">
                                 <option value="original">Original</option>
                                 <option value="inspired">Inspired</option>
                                 <option value="custom_blend">Custom Blend</option>
@@ -89,39 +95,28 @@
                         </div>
                         <div id="inspired-by-container" class="hidden">
                             <label id="linked-product-label" class="block text-sm font-medium text-gray-700">Inspired By (Link to Original)</label>
-                            <select id="linked_product_id" name="linked_product_id" class="mt-1 block w-full">
+                            <select id="linked_product_id" name="linked_product_id" class="mt-1 block w-full p-2.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 shadow-sm">
                                 <!-- Options will be loaded by JS -->
                             </select>
                         </div>
                     </div>
-
-                    <!-- Main Image -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Main Thumbnail Image</label>
-                        <input type="file" id="main_image" name="main_image" class="mt-1 block w-full">
+                        <input type="file" id="main_image" name="main_image" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none p-2.5">
                         <img id="main-image-preview" src="" class="mt-2 h-24 w-24 object-cover hidden">
                     </div>
-
-                    <!-- Attributes Section -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Scent Attributes (e.g., Top Note, Base Note)</label>
-                        <div id="attributes-container" class="mt-2 space-y-2">
-                            <!-- Attribute rows will be added here by JS -->
-                        </div>
+                        <label class="block text-sm font-medium text-gray-700">Scent Attributes</label>
+                        <div id="attributes-container" class="mt-2 space-y-2"></div>
                         <button type="button" id="add-attribute-btn" class="mt-2 px-3 py-1 text-sm bg-gray-200 rounded-md">+ Add Attribute</button>
                     </div>
-
-                    <!-- Gallery Images Section -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Gallery Images (can select multiple)</label>
-                        <input type="file" id="gallery_images" name="gallery_images[]" class="mt-1 block w-full" multiple>
-                        <div id="gallery-preview-container" class="mt-2 flex flex-wrap gap-2">
-                            <!-- Existing gallery images will be shown here -->
-                        </div>
+                        <label class="block text-sm font-medium text-gray-700">Gallery Images</label>
+                        <input type="file" id="gallery_images" name="gallery_images[]" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none p-2.5" multiple>
+                        <div id="gallery-preview-container" class="mt-2 flex flex-wrap gap-2"></div>
                     </div>
-
-                    <div class="flex justify-end space-x-4">
-                        <button type="button" id="cancel-btn" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md">Cancel</button>
+                    <div class="flex justify-end space-x-4 pt-4 border-t">
+                        <button type="button" id="form-cancel-btn" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md">Cancel</button>
                         <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-md">Save Product</button>
                     </div>
                 </form>

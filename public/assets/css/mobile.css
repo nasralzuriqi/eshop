@@ -1,0 +1,95 @@
+/* eShop Mobile-Specific Styles */
+
+/* Default styles for mobile-only elements (hidden on desktop) */
+.mobile-sidebar, .sidebar-overlay {
+    display: none;
+}
+
+/* Apply styles only on screens up to 768px wide */
+@media (max-width: 768px) {
+    /* Hide desktop sidebar by default */
+    .desktop-sidebar {
+        display: none;
+    }
+
+    /* Mobile filter button */
+    .mobile-filter-button {
+        display: inline-flex;
+    }
+
+    /* Product grid with 2 columns */
+    #shop-products-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem; /* Smaller gap for mobile */
+    }
+
+    /* App-like padding for main container */
+    .mobile-container-padding {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    /* Optimize font sizes */
+    #shop-title {
+        font-size: 1.5rem; /* 24px */
+    }
+
+    .product-card h3 {
+        font-size: 0.875rem; /* 14px */
+    }
+
+    .product-card .price {
+        font-size: 1rem; /* 16px */
+    }
+
+    /* Mobile filter sidebar (off-canvas) */
+    .mobile-sidebar {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 80%;
+        max-width: 300px;
+        height: 100%;
+        background-color: white;
+        z-index: 100;
+        transition: left 0.3s ease-in-out;
+        overflow-y: auto;
+    }
+
+    .mobile-sidebar.open {
+        left: 0;
+    }
+
+    .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 99;
+        display: none; /* Hidden by default */
+    }
+
+    .mobile-sidebar {
+        display: block;
+    }
+
+    .sidebar-overlay.open {
+        display: block;
+    }
+
+    /* New Mobile Product Card Styles */
+    .product-card-mobile {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .product-card-mobile .image-container {
+        background-color: #f7f7f7; /* A light grey */
+        background-image: radial-gradient(circle, #ffffff 0%, #f7f7f7 100%);
+    }
+
+    .product-card-mobile .add-to-cart-btn .fa-plus {
+        font-size: 0.8rem;
+    }
+}

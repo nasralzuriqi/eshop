@@ -12,6 +12,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const sortSelect = document.getElementById('sort-select');
     const clearFiltersBtn = document.getElementById('clear-filters-btn');
     const loadingSpinner = document.getElementById('loading-spinner');
+    const mobileSidebar = document.getElementById('mobile-sidebar');
+    const mobileFilterBtn = document.getElementById('mobile-filter-btn');
+    const sidebarOverlay = document.getElementById('sidebar-overlay');
+    const heroSliderContainer = document.getElementById('hero-slider-container');
 
     let state = {
         category: 'all',
@@ -31,7 +35,35 @@ document.addEventListener('DOMContentLoaded', () => {
             const discountPrice = parseFloat(product.discount_price);
             const originalPrice = parseFloat(product.price);
 
-            const card = `
+                        const isMobile = window.innerWidth <= 768;
+            let card;
+
+            if (isMobile) {
+                const discountPercentage = discountPrice > 0 ? Math.round(((originalPrice - discountPrice) / originalPrice) * 100) : 0;
+                card = `
+                <div class="product-card-mobile bg-white rounded-2xl shadow-md overflow-hidden flex flex-col p-3">
+                    <div class="relative">
+                        <div class="image-container bg-gray-100 rounded-xl flex items-center justify-center p-2">
+                             <a href="product.html?id=${product.id}" class="block">
+                                <img src="../${product.main_image_url}" alt="${product.name}" class="w-full h-32 object-contain">
+                            </a>
+                        </div>
+                        ${discountPercentage > 0 ? `<div class="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">${discountPercentage}% OFF</div>` : ''}
+                    </div>
+                    <div class="mt-3 flex-grow">
+                        <h3 class="font-semibold text-gray-800 text-sm truncate">${product.name}</h3>
+                        <p class="text-xs text-gray-500">${product.brand_name}</p>
+                    </div>
+                    <div class="flex justify-between items-center mt-2">
+                        <span class="font-bold text-gray-900 text-lg">$${discountPrice > 0 ? discountPrice.toFixed(2) : originalPrice.toFixed(2)}</span>
+                        <button class="add-to-cart-btn bg-indigo-600 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-indigo-700 transition-colors" data-id="${product.id}">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+                `;
+            } else {
+                card = `
                 <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-1 transition-transform duration-300">
                     <a href="product.html?id=${product.id}" class="block">
                         <img src="../${product.main_image_url}" alt="${product.name}" class="w-full h-64 object-cover">
@@ -48,7 +80,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         </div>
                     </div>
                 </div>
-            `;
+                `;
+            }
             productsGrid.innerHTML += card;
         });
     };
@@ -178,12 +211,76 @@ document.addEventListener('DOMContentLoaded', () => {
         updateUI();
     });
 
+    const fetchAndRenderHeroSlider = async () => {
+        if (!heroSliderContainer) return;
+
+        try {
+            const response = await fetch(`${API_BASE_URL}?resource=hero_sliders&action=read_active`);
+            const result = await response.json();
+
+            if (result.status === 'success' && result.data.length > 0) {
+                heroSliderContainer.innerHTML = `
+                    <div class="swiper-container" style="width: 100%; height: 50vh;">
+                        <div class="swiper-wrapper">
+                            ${result.data.map(slide => `
+                                <div class="swiper-slide" style="background-image: url('../${slide.image_url}'); background-size: cover; background-position: center;">
+                                    <div class="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-center items-center text-center text-white p-4">
+                                        <h2 class="text-2xl font-bold">${slide.title}</h2>
+                                        <p class="mt-2 text-lg">${slide.subtitle}</p>
+                                        ${slide.btn_text && slide.btn_link ? `<a href="${slide.btn_link}" class="mt-4 px-6 py-2 bg-indigo-600 text-white font-semibold rounded-full hover:bg-indigo-700 transition-colors">${slide.btn_text}</a>` : ''}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                `;
+                new Swiper('.swiper-container', {
+                    loop: true,
+                    autoplay: { delay: 5000, disableOnInteraction: false },
+                    pagination: { el: '.swiper-pagination', clickable: true },
+                });
+            }
+        } catch (error) {
+            console.error('Failed to load hero slider:', error);
+        }
+    };
+
+    const setupMobileSidebar = () => {
+        if (!mobileSidebar) return;
+        const desktopSidebarContent = document.querySelector('.desktop-sidebar .sticky');
+        if (desktopSidebarContent) {
+            mobileSidebar.innerHTML = desktopSidebarContent.innerHTML;
+        }
+
+        const toggleSidebar = () => {
+            mobileSidebar.classList.toggle('open');
+            sidebarOverlay.classList.toggle('open');
+        };
+
+        mobileFilterBtn.addEventListener('click', toggleSidebar);
+        sidebarOverlay.addEventListener('click', toggleSidebar);
+
+        mobileSidebar.addEventListener('click', (e) => {
+            if (e.target.classList.contains('filter-link')) {
+                e.preventDefault();
+                handleStateChange(e.target.dataset.type, e.target.dataset.id);
+                toggleSidebar();
+            } else if (e.target.id === 'clear-filters-btn') {
+                clearFiltersBtn.click();
+                toggleSidebar();
+            }
+        });
+    };
+
     // Initial Load
     const init = async () => {
+        fetchAndRenderHeroSlider();
         await fetchAndRenderFilters();
         initFromURL();
         updateUI();
         fetchProducts();
+        setupMobileSidebar();
     };
 
     init();

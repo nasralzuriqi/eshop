@@ -1,19 +1,22 @@
-<!-- Header -->
 <header class="bg-white shadow-md p-4 flex justify-between items-center">
-    <div>
-        <!-- Can add breadcrumbs or page title here -->
+    <!-- Mobile Menu Toggle -->
+    <button id="sidebar-toggle" class="text-gray-500 focus:outline-none focus:text-gray-700 md:hidden">
+        <i class="fas fa-bars fa-lg"></i>
+    </button>
+
+    <div class="flex-1">
+        <!-- Can add search or other elements here -->
     </div>
-    <div class="flex items-center">
-        <span id="admin-user-name" class="text-gray-700 mr-4"></span>
-        <button onclick="logout()" class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700">Logout</button>
+
+    <!-- Profile Dropdown -->
+    <div class="relative">
+        <button id="profile-button" class="flex items-center space-x-2 focus:outline-none">
+            <span id="admin-user-name" class="text-gray-700 text-sm font-medium"></span>
+            <i class="fas fa-chevron-down text-gray-500 text-xs"></i>
+        </button>
+        <div id="profile-dropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden z-20">
+            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+            <a href="#" id="logout-btn" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Logout</a>
+        </div>
     </div>
 </header>
-<script>
-    // Set the admin's name in the header
-    document.addEventListener('DOMContentLoaded', () => {
-        const adminUser = JSON.parse(sessionStorage.getItem('admin_user'));
-        if (adminUser && adminUser.username) {
-            document.getElementById('admin-user-name').textContent = `Welcome, ${adminUser.username}`;
-        }
-    });
-</script>
